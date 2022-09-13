@@ -5,6 +5,8 @@ using UnityEngine;
 public class RaycastThing : MonoBehaviour
 {
     Camera camera;
+    RaycastHit hit;
+    Ray ray;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,12 +19,7 @@ public class RaycastThing : MonoBehaviour
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = 10f;
         mousePos = camera.ScreenToWorldPoint(mousePos);
-        
-        //for now
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+        ray = camera.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray,out hit, 100f))
             {
@@ -31,6 +28,6 @@ public class RaycastThing : MonoBehaviour
                 Debug.Log(number + " " + name);
             }
 
-        }
+        // }
     }
 }

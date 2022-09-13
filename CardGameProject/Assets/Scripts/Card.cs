@@ -8,7 +8,7 @@ public class Card : MonoBehaviour
     public int atmoicNumber;
     public string elementName;
     public int type;
-
+    
     public void setName(string n)
     {
         elementName = n;
