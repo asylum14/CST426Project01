@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RaycastThing : MonoBehaviour
 {
+    public ItemSpawner boss;
+    public SampleUI ui;
     Camera camera;
     RaycastHit hit;
     Ray ray;
@@ -26,6 +28,11 @@ public class RaycastThing : MonoBehaviour
                 string name = hit.transform.gameObject.GetComponent<Card>().getName();
                 int number = hit.transform.gameObject.GetComponent<Card>().getNumber();
                 Debug.Log(number + " " + name);
+                ui.setElementText(number, name);
+                if (Input.GetMouseButton(0))
+                {
+                    boss.removeCard(hit.transform.gameObject);
+                }
             }
 
         // }

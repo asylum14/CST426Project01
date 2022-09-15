@@ -16,11 +16,33 @@ public class ItemSpawner : MonoBehaviour
     GameObject currentGhost;
     public List<GameObject> deck;
     public List<Transform> cardLocations;
+    [SerializeField] int cardsTaken;
+    bool[] locationSlot;
     // Start is called before the first frame update
     void Start()
     {
-        //deck = new List<Card>();
+        locationSlot = new bool[5];
+        for (int c = 0; c < 5; c++)
+        {
+            locationSlot[c] = false;
+            //Debug.Log(cardLocations[c].position);
+        }
         startPhrasing(filename);
+    }
+
+    public void removeCard(GameObject target)
+    {
+        Vector3 lastPostion = target.transform.position;
+        for (int c = 0; c < 5; c++)
+        {
+            if (lastPostion.Equals(cardLocations[c].position))
+            {
+                locationSlot[c] = false;
+                Debug.Log("Slot " + c + " is opened");
+                break;
+            }
+        }
+        Destroy(target);
     }
 
     void startPhrasing(string file)
@@ -46,6 +68,8 @@ public class ItemSpawner : MonoBehaviour
         for (int c = 0; c < 5; c++)
         {
             spawnCard(deck[c], cardLocations[c].position);
+            locationSlot[c] = true;
+            cardsTaken++;
         }
     }
 
@@ -96,6 +120,7 @@ public class ItemSpawner : MonoBehaviour
     {
         List<GameObject> tempDeck = new List<GameObject>();
         bool[] locations = new bool[deck.Capacity]; 
+        cardsTaken = 0;
         for (int c = 0; c < deck.Capacity; c++)
         {
             locations[c] = false;
@@ -103,7 +128,7 @@ public class ItemSpawner : MonoBehaviour
 
         for (int c = 0; c < deck.Capacity; c++)
         {
-            int currentLocation = Random.Range(0, deck.Capacity);
+            int currentLocation = Random.Range(0, deck.Capacity - 1);
             while(locations[currentLocation] == true)
             {
                 Debug.Log("THIS WAS TRIGGERED at " + currentLocation);
@@ -117,8 +142,13 @@ public class ItemSpawner : MonoBehaviour
         deck = tempDeck;
     }
     
-    void spawnCard(GameObject card, Vector3 location)
+    public void spawnCard(GameObject card, Vector3 location)
     {
+        if (cardsTaken >= deck.Capacity)
+        {
+            return;
+        }
+
         switch(card.GetComponent<Card>().getType())
         {
             case 1:
@@ -158,9 +188,15 @@ public class ItemSpawner : MonoBehaviour
         Instantiate(card, location, Quaternion.identity);
     }
 
-    void spawnCard(string n, int AN, int t, int x) // this needs to change too
+    public void spawnNewCard() // this needs to change too
     {
-        switch(t)
+        if (cardsTaken >= deck.Capacity)
+        {
+            Debug.Log("FAIL CONDITION 1: NO CARDS");
+            return;
+        }
+
+        switch(deck[cardsTaken].GetComponent<Card>().getType())
         {
             case 1:
                 currentGhost = nonMetal;
@@ -197,12 +233,25 @@ public class ItemSpawner : MonoBehaviour
             default: break;
         }
 
-        Vector3 place = new Vector3((float) x, 0f, 0f); // this can change based on the location of the card slot
-        currentGhost.GetComponent<Card>().setName(n);
-        currentGhost.GetComponent<Card>().setNumber(AN);
-        deck.Add(currentGhost);
+        bool slotAva = false;
+        int slotLocation;
+        for (slotLocation = 0; slotLocation < 5; slotLocation++)
+        {
+            if (locationSlot[slotLocation] == false)
+            {
+                slotAva = true;
+                break;
+            }
+        }
 
-        Instantiate(currentGhost, place, Quaternion.identity);
+        if (slotAva)
+        {
+            locationSlot[slotLocation] = true;
+            Instantiate(deck[cardsTaken], cardLocations[slotLocation].position, Quaternion.identity);
+            cardsTaken++;
+            return;
+        }
+        Debug.Log("FAIL CONDITION 2: No slots avaliable");
     }
 
     
