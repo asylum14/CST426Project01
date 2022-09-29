@@ -24,4 +24,14 @@ public class SampleUI : MonoBehaviour
     {
         someText.text = text;
     }
+
+    public void resetText()
+    {
+        someText.text = "";
+    }
+
+    public void addText(string placement)
+    {
+        someText.text += placement;
+    }
 }

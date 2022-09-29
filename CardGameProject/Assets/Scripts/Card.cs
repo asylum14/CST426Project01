@@ -8,44 +8,58 @@ public class Card : MonoBehaviour
     public int atmoicNumber;
     public string elementName;
     public int type;
+    Outline outlinePencil;
+
+    void Start()
+    {
+        outlinePencil = gameObject.GetComponent<Outline>();
+        outlinePencil.OutlineColor = Color.white;
+        outlinePencil.OutlineWidth = 7f;
+        outlinePencil.enabled = false;
+    }
     
     public void setName(string n)
     {
-        elementName = n;
+        this.elementName = n;
     }
     
     public void setNumber(int n)
     {
-        atmoicNumber = n;
+        this.atmoicNumber = n;
     }
 
     public void setType(int t)
     {
-        type = t;
+        this.type = t;
     }
 
     public string getName()
     {
-        return elementName;
+        return this.elementName;
     }
 
     public int getNumber()
     {
-        return atmoicNumber;
+        return this.atmoicNumber;
     }
 
     public int getType()
     {
-        return type;
+        return this.type;
     }
-    // void Start()
-    // {
-        
-    // }
+    
+    public void toggleOutline()
+    {
+        if (outlinePencil.enabled)
+        {
+            outlinePencil.enabled = false;
+            return;
+        }
+        outlinePencil.enabled = true;
+    }
 
-    // // Update is called once per frame
-    // void Update()
-    // {
-        
-    // }
+    public bool getOutlineState()
+    {
+        return outlinePencil.enabled;
+    }
 }
