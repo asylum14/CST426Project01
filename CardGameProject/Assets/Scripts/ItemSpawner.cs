@@ -136,7 +136,7 @@ public class ItemSpawner : MonoBehaviour
             int currentLocation = Random.Range(0, (int) deck.Capacity - 1);
             while(locations[currentLocation] == true)
             {
-                //Debug.Log("THIS WAS TRIGGERED at " + currentLocation);
+                Debug.Log("THIS WAS TRIGGERED at " + currentLocation);
                 if (locations[currentLocation] == true)
                 {
                     currentLocation = Random.Range(0, deck.Capacity);
@@ -146,7 +146,7 @@ public class ItemSpawner : MonoBehaviour
             locations[currentLocation] = true;
         }
         deck = tempDeck;
-        text.text = "DRAW " + cardsRemaining();
+        //text.text = "DRAW " + cardsRemaining();
     }
     
     public void spawnCard(GameObject card, Vector3 location)
@@ -264,7 +264,7 @@ public class ItemSpawner : MonoBehaviour
 
     public int cardsRemaining()
     {
-        return deck.Capacity - cardsTaken;
+        return deck.Count - cardsTaken;
     }
     
 }

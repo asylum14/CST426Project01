@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +6,7 @@ public class RaycastThing : MonoBehaviour
     public ItemSpawner boss;
     public SampleUI ui;
     public List<GameObject> selectedCards;
+    public CardLogic cL;
     Camera camera;
     RaycastHit hit;
     Ray ray;
@@ -20,6 +20,7 @@ public class RaycastThing : MonoBehaviour
 
     public void playCards()
     {
+        Debug.Log(cL.runCalulations() + " Type: " + cL.typeLogic());
         foreach (GameObject GO in selectedCards)
         {
             ItemSpawner.removeCard(GO);
