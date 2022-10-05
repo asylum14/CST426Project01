@@ -21,20 +21,18 @@ public class ItemSpawner : MonoBehaviour
     bool[] locationSlot;
 
     public TextMeshProUGUI text;
-    // Start is called before the first frame update
     void Start()
     {
         locationSlot = new bool[5];
         for (int c = 0; c < 5; c++)
         {
             locationSlot[c] = false;
-            //Debug.Log(cardLocations[c].position);
         }
         startPhrasing(filename);
         text.text = "DRAW " + cardsRemaining();
     }
 
-    public void removeCard(GameObject target)
+    public void removeCard(GameObject target) // removes card from deck
     {
         Vector3 lastPostion = target.transform.position;
         for (int c = 0; c < 5; c++)
@@ -49,7 +47,7 @@ public class ItemSpawner : MonoBehaviour
         Destroy(target);
     }
 
-    void startPhrasing(string file) // TODO: Find a way to sperate this and find a way to add new elements
+    void startPhrasing(string file) // reads the text file and places cards
     {
         string laPath = string.Format("{0}{1}{2}.txt", Application.dataPath, "/Scripts/", file);
         using StreamReader sr = new StreamReader(laPath);
@@ -78,7 +76,7 @@ public class ItemSpawner : MonoBehaviour
         }
     }
 
-    void putCardToDeck(string n, int AN, int t)
+    void putCardToDeck(string n, int AN, int t) // card assignment
     {
         switch(t)
         {
@@ -121,7 +119,7 @@ public class ItemSpawner : MonoBehaviour
         deck.Add(currentGhost);
     }
 
-    public void shuffle() 
+    public void shuffle() // shuffles the deck
     {
         List<GameObject> tempDeck = new List<GameObject>();
         bool[] locations = new bool[deck.Capacity]; 
@@ -146,10 +144,9 @@ public class ItemSpawner : MonoBehaviour
             locations[currentLocation] = true;
         }
         deck = tempDeck;
-        //text.text = "DRAW " + cardsRemaining();
     }
     
-    public void spawnCard(GameObject card, Vector3 location)
+    public void spawnCard(GameObject card, Vector3 location) // spawns cards
     {
         if (cardsTaken >= deck.Capacity)
         {
@@ -195,7 +192,7 @@ public class ItemSpawner : MonoBehaviour
         Instantiate(card, location, Quaternion.identity);
     }
 
-    public void spawnNewCard() // this needs to change too
+    public void spawnNewCard() // spawn new cards from deck to hand
     {
         if (cardsTaken >= deck.Capacity)
         {

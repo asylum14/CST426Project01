@@ -1,14 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Card : MonoBehaviour
 {
-    // Start is called before the first frame update
     public int atmoicNumber;
     public string elementName;
     public int type;
-    Outline outlinePencil;
+    Outline outlinePencil; // For more infomation please visit the QuickOutline folder
 
     void Start()
     {
